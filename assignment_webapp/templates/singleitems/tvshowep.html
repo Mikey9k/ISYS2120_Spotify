@@ -1,0 +1,118 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- Check if We have a valid tvshow ep -->
+        {% if tvshowep | length > 0 %}
+            <h2 class="title"> {{tvshowep[0].tvshow_episode_title}} aired on {{tvshowep[0].air_date}} </h2>
+            <br/>
+            <h2 class="title"> Season {{tvshowep[0].season}}, Episode {{tvshowep[0].episode}} </h2>
+            <br/>
+            <div>
+            <video id="myTvShow" width="320" height="240" controls>
+              <source src={{tvshowep[0].storage_location}} type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            {% if tvshowep_playback | length > 0 %}
+              <p>Full Listens: {{tvshowep_playback[0].play_count}} <br/>
+                Last Listened: {{tvshowep_playback[0].lastviewed}} <br/><br/>
+                Play from where you last left off!</p>
+              <button onclick="setFromLastPlayed({{tvshowep_playback[0].progress}})" type="button">Resume</button><br>
+            {% endif %}
+            </div>
+
+            <h3> Artworks </h3>
+            {% for instance in tvshowep %}
+                {% if instance.md_type_name == 'artwork' %}
+                    <img src="{{instance.md_value}}" alt="image">
+                    <br/>© Amazon Public Domain 2019.
+                {% endif %}
+            {% endfor %}
+            <br/>
+            <h3> Descriptions </h3>
+            {% for instance in tvshowep %}
+                {% if instance.md_type_name == 'description' %}
+                    <div>
+                        {{instance.md_value}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h2 class="title"> Invalid TV Show Ep ID</h2>
+        {% endif %}
+    </div>
+</div>
+<script>
+  var episode = document.getElementById("myTvShow");
+
+  function setFromLastPlayed(progress) {
+    var last_played = (episode.duration*progress)/100;
+    episode.currentTime=last_played;
+  }
+</script>
+<script>
+  episode.addEventListener('pause', (event) => {
+    var pausedTime = (episode.currentTime/episode.duration)*100
+    var entry = {
+          media_id: {{tvshowep[0].media_id}},
+          progress: pausedTime
+    }
+
+
+    if(pausedTime<100) {
+      fetch(`${window.origin}/update_media_progress`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(entry),
+      cache: "no-cache",
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+      })
+      .then(function(response) {
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(function(data) {
+        console.log(data);
+      });
+      })
+      .catch(function(error) {
+      console.log("Fetch error: " + error);
+      });
+    }
+
+  });
+</script>
+<script>
+  episode.addEventListener("ended", function() {
+
+      var ended_entry = {
+            media_id: {{tvshowep[0].media_id}},
+      }
+
+      fetch(`${window.origin}/update_play_count`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(ended_entry),
+      cache: "no-cache",
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+      })
+      .then(function(response) {
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(function(data) {
+        console.log(data);
+      });
+      })
+      .catch(function(error) {
+      console.log("Fetch error: " + error);
+    });
+
+  });
+</script>
+{% include 'bottom.html'%}

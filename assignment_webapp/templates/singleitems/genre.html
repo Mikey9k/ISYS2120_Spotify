@@ -1,0 +1,60 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!--  Example of a table with clickable rows:
+        <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Column 1 Heading - Usually an ID </td>
+                            <td>Column 2 Heading</td>
+                                      .
+                                      .
+                                      .
+                            <td>Column n Heading</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in some_input_array %}
+                        <tr class="clickable-tr" data-href="{{ url_for('single_item_target', target_id=instance.single_item_target_id)}}">
+                            <td style="text-align: center">{{ instance.single_item_target_id }}</td>
+                            <td>{{instance.item_corresponding_to_column_2}}</td>
+                                      .
+                                      .
+                                      .
+                            <td>{{instance.item_corresponding_to_column_n}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+        -->
+        <!-- TODO Query (10) -->
+        <!-- First check should be a valid instance -->
+        <!-- Second check should be what type of genre? -->
+        {% if genrelist | length > 0 %}
+        <h2 class="title"> All Media for: {{genrelist[0].genre}} </h2>
+        <hr/>
+        <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Media ID</td>
+                            <td>Title</td>
+                            <td>Type</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in genrelist %}
+                        <tr>
+                            <td style="text-align: center">{{ instance.media_id }}</td>
+                            <td>{{instance.media_title}}</td>
+                            <td>{{instance.media_type}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        {% else %}
+            <h2 class="title"> Invalid Genre ID</h2>
+        {% endif %}
+    </div>
+</div>
+{% include 'bottom.html'%}

@@ -1,0 +1,123 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <h2 class="title"> Add Song </h2>
+
+        <!-- Song Schema 
+            CREATE TABLE Song (
+                song_id INTEGER PRIMARY KEY REFERENCES AudioMedia(media_id),
+                song_title VARCHAR(100),
+                length INTEGER
+            );
+            Associated Media_id information
+                - storage location
+            Associated Artist information
+                - artist_id
+            Associated Meta data
+                - description (4)
+                - song_genre (1)
+                - artwork (3)
+        -->
+        <!-- Query (8)
+            TODO
+            Add Song
+            You will need to create a form for taking in input. Remember the input has to be valid,
+            so you will have to check the data somewhere. The best way is to pass any relevant information that is
+            needed to this page (such as artists, metadata type id's or values) and then manage the display similar to what is
+            done in the drop down menu for the search bar
+        -->
+        <form class="Add" method="POST" action="{{url_for('add_song')}}">
+
+            Song title: <input type="text" name="song_title" value="Untitled" placeholder="Song name">
+            Song length (Seconds): <input type="text" name="song_length" value="60" placeholder="60">
+            <br/>
+            Storage location: <input type="text" name="storage_location" value="no location" placeholder="Storage location">
+            Description: <input type="text" name="description" value="no description" placeholder="Description">
+            <br/>
+            <!--Song Genre: <input type="text" name="song_genre" value="Country" placeholder="Country">-->
+            Select Genre: <select id="song_genre" name="song_genre">
+                <option value='7231'>british invasion</option>;
+                <option value='7232'>merseybeat</option>;
+                <option value='7233'>psychedelic rock</option>;
+                <option value='7234'>rock</option>;
+                <option value='7235'>funk</option>;
+                <option value='7236'>soul</option>;
+                <option value='7237'>dance pop</option>;
+                <option value='7238'>pop</option>;
+                <option value='7239'>post-teen pop</option>;
+                <option value='7240'>chicago rap</option>;
+                <option value='7241'>hip hop</option>;
+                <option value='7242'>pop rap</option>;
+                <option value='7243'>rap</option>;
+                <option value='7244'>trap</option>;
+                <option value='7245'>gospel</option>;
+                <option value='7246'>alternative hip hop</option>;
+                <option value='7247'>dirty south rap</option>;
+                <option value='7248'>gangster rap</option>;
+                <option value='7249'>hardcore hip hop</option>;
+                <option value='7250'>southern hip hop</option>;
+                <option value='7251'>smooth jazz</option>;
+                <option value='7252'>smooth saxophone</option>;
+                <option value='7253'>album rock</option>;
+                <option value='7254'>classic rock</option>;
+                <option value='7255'>folk rock</option>;
+                <option value='7256'>heartland rock</option>;
+                <option value='7257'>mellow gold</option>;
+                <option value='7258'>soft rock</option>;
+                <option value='7259'>yacht rock</option>;
+                <option value='7260'>hard rock</option>;
+                <option value='7261'>glam metal</option>;
+                <option value='7262'>emo</option>;
+                <option value='7263'>modern rock</option>;
+                <option value='7264'>pop punk</option>;
+                <option value='7265'>australian country</option>;
+                <option value='7266'>australian pop</option>;
+                <option value='7267'>australian rock</option>;
+                <option value='7268'>australian talent show</option>;
+                <option value='7269'>electropop</option>;
+                <option value='7270'>art rock</option>;
+                <option value='7271'>dance rock</option>;
+                <option value='7272'>glam rock</option>;
+                <option value='7273'>new wave</option>;
+                <option value='7274'>permanent wave</option>;
+                <option value='7275'>protopunk</option>;
+                <option value='7276'>uk pop</option>;
+            </select>
+            Select Artist : 
+            <select id="artist_id" name="artist_id">
+            <option value='1'>The Beatles</option>;
+            <option value='2'>Billy Preston</option>;
+            <option value='3'>Taylor Swift</option>;
+            <option value='4'>Kanye West</option>;
+            <option value='5'>Sunday Service Choir</option>;
+            <option value='6'>Ty Dolla $ign</option>;
+            <option value='7'>Ant Clemons</option>;
+            <option value='8'>Fred Hammond</option>;
+            <option value='9'>Clipse</option>;
+            <option value='10'>Kenny G</option>;
+            <option value='11'>Eagles</option>;
+            <option value='12'>Journey</option>;
+            <option value='13'>Bon Jovi</option>;
+            <option value='14'>Fall Out Boy</option>;
+            <option value='15'>Shannon Noll</option>;
+            <option value='16'>Billie Eilish</option>;
+            <option value='17'>David Bowie</option>;
+            <option value='18'>Ed Sheeran</option>;
+            </select>
+            <!--<input type="text" name="artist_id" value="0" placeholder="0">-->
+             <!--Artist Name: <input type="text" name="artist_name" value="Unknown" placeholder="Unknown">-->
+            Artwork: <input type="text" name="artwork" value="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" placeholder="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png">
+            <br/>
+            <button class="flat" type="submit">Add</button>
+            <br/>
+            <hr/>
+            <hr/>
+            <hr/>
+        </form>
+        <br/>
+        <div>
+
+    </div>
+</div>
+{% include 'bottom.html'%}
